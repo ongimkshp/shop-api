@@ -17,22 +17,12 @@ class ProductService
         $this->productOptionService = $productOptionService;
     }
 
-    public function getAllProducts()
-    {
-        return ProductResource::collection($this->productRepository->getAllProducts());
-    }
-
-    public function getProductById($id)
-    {
-        return new ProductResource($this->productRepository->getProductById($id));
-    }
-
     public function createProduct($request)
     {
         $attributes = $request->only(['title', 'product_type', 'status', 'vendor']);
         $optionsAttr = $request->options;
         $product = $this->productRepository->createProduct($attributes);
         $this->productOptionService->createOptions($optionsAttr, $product->id);
-        return new ProductResource($product);
+        return $product;
     }
 }

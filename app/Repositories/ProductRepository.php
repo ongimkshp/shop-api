@@ -14,16 +14,6 @@ class ProductRepository implements ProductRepositoryInterface
         $this->model = $model;
     }
 
-    public function getAllProducts()
-    {
-        return $this->model::all();
-    }
-
-    public function getProductById($id)
-    {
-        return $this->model::findOrfail($id);
-    }
-
     public function createProduct($attributes)
     {
         return $this->model::create($attributes);
