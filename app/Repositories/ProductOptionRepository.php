@@ -5,13 +5,15 @@ namespace App\Repositories;
 use App\Models\ProductOption;
 use App\Repositories\Interfaces\ProductOptionRepositoryInterface;
 
-class ProductOptionRepository extends BaseRepository implements ProductOptionRepositoryInterface
+class ProductOptionRepository implements ProductOptionRepositoryInterface
 {
+    protected $model;
 
-    public function getModel()
+    public function __construct(ProductOption $model)
     {
-        return ProductOption::class;
+        $this->model = $model;
     }
+
     public function createOption($attributes)
     {
         return $this->model::create($attributes);
