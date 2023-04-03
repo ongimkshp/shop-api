@@ -14,8 +14,9 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
-    public function createProduct($attributes)
+    public function createProduct($request)
     {
+        $attributes = $request->only(["title", "product_type", "vendor", "status"]);
         return $this->productRepository->createProduct($attributes);
     }
 }

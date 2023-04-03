@@ -5,13 +5,15 @@ namespace App\Repositories;
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 
-class ProductRepository extends BaseRepository implements ProductRepositoryInterface
+class ProductRepository implements ProductRepositoryInterface
 {
+    protected $model;
 
-    public function getModel()
+    public function __construct(Product $model)
     {
-        return Product::class;
+        $this->model = $model;
     }
+
     public function createProduct($attributes)
     {
         return $this->model::create($attributes);
