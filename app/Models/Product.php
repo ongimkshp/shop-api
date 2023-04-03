@@ -18,4 +18,9 @@ class Product extends Model
         'status',
         'vendor',
     ];
+
+    public function options()
+    {
+        return $this->hasMany(ProductOption::class);
+    }
 }

@@ -15,6 +15,18 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
+    public function  getAllProducts()
+    {
+        $products = $this->productService->getAllProducts();
+        return ApiResponse::createSuccessResponse($products);
+    }
+
+    public function getProductById($id)
+    {
+        $product = $this->productService->getProductById($id);
+        return ApiResponse::createSuccessResponse($product);
+    }
+
     public function createProduct(ProductRequest $request)
     {
         $product = $this->productService->createProduct($request);

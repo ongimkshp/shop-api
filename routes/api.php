@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'products'], function () {
+    Route::get('/', [ProductController::class, 'getAllProducts']);
+    Route::get('/{id}', [ProductController::class, 'getProductById']);
     Route::post('/', [ProductController::class, 'createProduct']);
 });
