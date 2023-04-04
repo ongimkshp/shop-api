@@ -14,8 +14,8 @@ class ProductOptionRepository implements ProductOptionRepositoryInterface
         $this->model = $model;
     }
 
-    public function createOption($attributes)
+    public function createOptions($attributes)
     {
-        return $this->model::create($attributes);
+        return $this->model::insert($attributes);
     }
 }

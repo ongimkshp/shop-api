@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Repositories\Interfaces\ProductOptionRepositoryInterface;
+use Illuminate\Support\Str;
 
 class ProductOptionService
 {
@@ -16,12 +17,14 @@ class ProductOptionService
 
     public function createOptions($attributes, $productId)
     {
-        $option = [];
-        foreach ($attributes as $attribute) {
-            $option['product_id'] = $productId;
-            $option['name'] = $attribute['name'];
-            $option['values'] = json_encode($attribute['values']);
-            $this->productOptionRepo->createOption($option);
-        }
+        $options = array_map(function ($attribute) use ($productId) {
+            return [
+                'id' => Str::uuid(),
+                'product_id' => $productId,
+                'name' => $attribute['name'],
+                'values' => json_encode($attribute['values'])
+            ];
+        }, $attributes);
+        $this->productOptionRepo->createOptions($options);
     }
 }

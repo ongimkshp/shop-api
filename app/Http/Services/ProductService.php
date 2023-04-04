@@ -3,7 +3,7 @@
 namespace App\Http\Services;
 
 use App\Repositories\Interfaces\ProductRepositoryInterface;
-use App\Http\Resources\ProductResource;
+use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
@@ -21,8 +21,11 @@ class ProductService
     {
         $attributes = $request->only(['title', 'product_type', 'status', 'vendor']);
         $optionsAttr = $request->options;
-        $product = $this->productRepository->createProduct($attributes);
-        $this->productOptionService->createOptions($optionsAttr, $product->id);
+        $product = DB::transaction(function () use ($attributes, $optionsAttr) {
+            $product = $this->productRepository->createProduct($attributes);
+            $this->productOptionService->createOptions($optionsAttr, $product->id);
+            return $product;
+        });
         return $product;
     }
 }
