@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Services\VariantService;
-use App\Models\Product;
+use Illuminate\Validation\Rule;
 
 class VariantRequest extends BaseRequest
 {
@@ -13,12 +12,15 @@ class VariantRequest extends BaseRequest
             'option1' => 'required|max:255',
             'option2' => 'max:255',
             'option3' => 'max:255',
-            'product_id' => ['required', 'exists:products,id', function ($attribute, $value, $fail) {
-                $titleStr = VariantService::createVariantTitle($this->all());
-                if (Product::find($value)->variants()->where('title', $titleStr)->exists()) {
-                    $fail('Product already has this set of 3 options');
-                }
-            }],
+            'product_id' => [
+                'required',
+                'exists:products,id',
+                Rule::unique('variants')->where(function ($query) {
+                    $query->where('option1', $this->option1)
+                        ->where('option2', $this->option2)
+                        ->where('option3', $this->option3);
+                }),
+            ],
         ];
     }
 
@@ -29,6 +31,9 @@ class VariantRequest extends BaseRequest
             'product_id.exists' => 'Product id is not exists',
             'option1.required' => 'Option is required',
             'option1.max' => 'Option must be less than 255 characters',
+            'option2.max' => 'Option must be less than 255 characters',
+            'option3.max' => 'Option must be less than 255 characters',
+            'product_id.unique' => 'Variant is already exists',
         ];
     }
 }

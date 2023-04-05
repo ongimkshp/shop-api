@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
-
     private $productRepository;
     private $productOptionService;
     private $variantService;
+
     public function __construct(
         ProductRepositoryInterface $productRepository,
         ProductOptionService $productOptionService,
@@ -26,12 +26,12 @@ class ProductService
         $attributes = $request->only(['title', 'product_type', 'status', 'vendor']);
         $optionsAttr = $request->options;
         $variantsAttr = $request->variants;
-        $product = DB::transaction(function () use ($attributes, $optionsAttr, $variantsAttr) {
+        $product = DB::transaction(function () use ($attributes, $optionsAttr) {
             $product = $this->productRepository->createProduct($attributes);
             $this->productOptionService->createOptions($optionsAttr, $product->id);
-            $this->variantService->createMultiVariant($variantsAttr, $product->id);
             return $product;
         });
+        $this->variantService->createMultiVariant($variantsAttr, $product->id);
         return $product;
     }
 }

@@ -14,18 +14,6 @@ class VariantService
         $this->variantRepository = $variantRepository;
     }
 
-    public static function createVariantTitle($attributes)
-    {
-        $title = $attributes['option1'];
-        if (isset($attributes['option2'])) {
-            $title .= ' / ' . $attributes['option2'];
-        }
-        if (isset($attributes['option3'])) {
-            $title .= ' / ' . $attributes['option3'];
-        }
-        return $title;
-    }
-
     public function createVariant($request)
     {
         $attributes = $request->only([
@@ -37,7 +25,6 @@ class VariantService
             'option2',
             'option3',
         ]);
-        $attributes['title'] = self::createVariantTitle($attributes);
         return $this->variantRepository->createVariant($attributes);
     }
 
@@ -47,7 +34,6 @@ class VariantService
             return [
                 'id' => Str::uuid(),
                 'product_id' => $productId,
-                'title' => self::createVariantTitle($attribute),
                 'price' => isset($attribute['price']) ? $attribute['price'] : null,
                 'gram' => isset($attribute['gram']) ? $attribute['gram'] : null,
                 'option1' => $attribute['option1'],
