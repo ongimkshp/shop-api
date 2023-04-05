@@ -9,7 +9,14 @@ class ProductRequest extends BaseRequest
         return [
             'title' => 'required|unique:products,title|max:255',
             'status' => 'in:active,draft,archived',
-            'options' => 'array',
+            'options' => 'array|max:3',
+            'options.*.name' => 'required|max:255',
+            'options.*.values' => 'required|array',
+            'options.*.values.*' => 'required|max:255',
+            'variants' => 'array|max:100',
+            'variants.*.option1' => 'required|max:255',
+            'variants.*.option2' => 'max:255',
+            'variants.*.option3' => 'max:255',
         ];
     }
 
@@ -20,7 +27,11 @@ class ProductRequest extends BaseRequest
             'title.unique' => 'has already been taken',
             'title.max' => 'is too long (maximum is 255 characters)',
             'status.in' => 'is incorrect',
-            'options.array' => 'is incorrect type',
+            'options.array' => 'is incorrect type (array expected)',
+            'options.max' => 'is too long (maximum is 3 items)',
+            'variants.array' => 'is incorrect type (array expected)',
+            'variants.max' => 'is too long (maximum is 100 items)',
+
         ];
     }
 }
