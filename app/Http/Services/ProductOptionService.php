@@ -22,7 +22,9 @@ class ProductOptionService
                 'id' => Str::uuid(),
                 'product_id' => $productId,
                 'name' => $attribute['name'],
-                'values' => json_encode($attribute['values'])
+                'values' => json_encode($attribute['values']),
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }, $attributes);
         $this->productOptionRepo->createOptions($options);
