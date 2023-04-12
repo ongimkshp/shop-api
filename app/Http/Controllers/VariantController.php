@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\VariantRequest;
 use App\Http\Services\VariantService;
+use App\Http\Resources\VariantResource;
 
 class VariantController extends Controller
 {
@@ -19,6 +20,6 @@ class VariantController extends Controller
     public function createVariant(VariantRequest $request)
     {
         $variant = $this->variantService->createVariant($request);
-        return ApiResponse::createSuccessResponse($variant);
+        return ApiResponse::createSuccessResponse(new VariantResource($variant));
     }
 }

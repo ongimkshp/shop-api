@@ -29,6 +29,14 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\Interfaces\ProductImageRepositoryInterface',
             'App\Repositories\ProductImageRepository'
         );
+        $this->app->bind(
+            'App\Repositories\Interfaces\CollectionRepositoryInterface',
+            'App\Repositories\CollectionRepository'
+        );
+        $this->app->bind(
+            'App\Repositories\Interfaces\CollectRepositoryInterface',
+            'App\Repositories\CollectRepository'
+        );
     }
 
     /**
