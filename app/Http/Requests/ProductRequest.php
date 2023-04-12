@@ -17,6 +17,9 @@ class ProductRequest extends BaseRequest
             'variants.*.option1' => 'required|max:255',
             'variants.*.option2' => 'max:255',
             'variants.*.option3' => 'max:255',
+            'images' => 'array',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5000',
+
         ];
     }
 
@@ -31,7 +34,10 @@ class ProductRequest extends BaseRequest
             'options.max' => 'is too long (maximum is 3 items)',
             'variants.array' => 'is incorrect type (array expected)',
             'variants.max' => 'is too long (maximum is 100 items)',
-
+            'images.array' => 'is incorrect type (array expected)',
+            'images.*.image_file.required' => "can't be blank",
+            'images.*.image_file.image' => 'is not a valid image',
+            'images.*.image_file.mimes' => 'is not a valid image',
         ];
     }
 }
