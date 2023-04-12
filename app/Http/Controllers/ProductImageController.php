@@ -17,6 +17,12 @@ class ProductImageController extends Controller
         $this->productImageService = $productImageService;
     }
 
+    public function getProductImages($productId)
+    {
+        $images = $this->productImageService->getProductImages($productId);
+        return ApiResponse::createSuccessResponse(ProductImageResource::collection($images));
+    }
+
     public function createProductImage(ProductImageRequest $request)
     {
         $image = $this->productImageService->createProductImage($request);

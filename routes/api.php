@@ -27,13 +27,23 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'getProducts']);
     Route::get('/{id}', [ProductController::class, 'getProductById']);
     Route::post('/', [ProductController::class, 'createProduct']);
+
+    Route::get('/{id}/variants', [VariantController::class, 'getVariantsByProductId']);
     Route::post('/{id}/variants', [VariantController::class, 'createVariant']);
+
+    Route::get('/{id}/images', [ProductImageController::class, 'getProductImages']);
     Route::post('/{id}/images', [ProductImageController::class, 'createProductImage']);
 });
 
-Route::post('/collections', [CollectionController::class, 'createCollection']);
+Route::group(['prefix' => 'collections'], function () {
+    Route::get('/', [CollectionController::class, 'getCollections']);
+    Route::get('/{id}', [CollectionController::class, 'getCollectionById']);
+    Route::get('/{id}/products', [CollectionController::class, 'getProductsInCollection']);
+    Route::post('/', [CollectionController::class, 'createCollection']);
+});
+
 Route::post('/collects', [CollectController::class, 'addProductToCollection']);
 
-// DB::listen(function ($query) {
-//     var_dump($query->sql);
-// });
+DB::listen(function ($query) {
+    var_dump($query->sql);
+});

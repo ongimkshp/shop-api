@@ -14,6 +14,11 @@ class ProductImageRepository implements ProductImageRepositoryInterface
         $this->model = $model;
     }
 
+    public function getAllProductImages($productId)
+    {
+        return $this->model->where('product_id', $productId)->get();
+    }
+
     public function storeImage($attributes)
     {
         $productImage = $this->model::create($attributes);

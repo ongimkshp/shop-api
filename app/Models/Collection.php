@@ -17,4 +17,9 @@ class Collection extends Model
         'sort_order',
         'published',
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'collects');
+    }
 }

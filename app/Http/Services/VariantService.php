@@ -14,6 +14,11 @@ class VariantService
         $this->variantRepository = $variantRepository;
     }
 
+    public function getVariantsByProductId($productId)
+    {
+        return $this->variantRepository->getAllVariantsByProductId($productId);
+    }
+
     public function createVariant($request)
     {
         $attributes = $request->only([

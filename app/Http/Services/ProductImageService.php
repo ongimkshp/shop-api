@@ -15,6 +15,11 @@ class ProductImageService
         $this->productImageRepository = $productImageRepository;
     }
 
+    public function getProductImages($productId)
+    {
+        return $this->productImageRepository->getAllProductImages($productId);
+    }
+
     public function createProductImage($request)
     {
         $attributes = $request->only([
