@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
+    private const LIMIT_DEFAULT = 100;
+    private const PAGE_DEFAULT = 0;
+
     private $productRepository;
     private $productOptionService;
     private $variantService;
@@ -22,6 +25,22 @@ class ProductService
         $this->productOptionService = $productOptionService;
         $this->variantService = $variantService;
         $this->productImageService = $productImageService;
+    }
+
+    public function getProducts($request)
+    {
+        $pagram = $request->all();
+        $pagram['limit'] = $pagram['limit'] ?? self::LIMIT_DEFAULT;
+        $pagram['page'] = $pagram['page'] ?? self::PAGE_DEFAULT;
+        $product = $this->productRepository->getProducts($pagram['limit'], $pagram['page']);
+        return [
+            'products' => $product
+        ];
+    }
+
+    public function getProductById($id)
+    {
+        return $this->productRepository->findById($id);
     }
 
     public function createProduct($request)
