@@ -50,4 +50,13 @@ class VariantService
         }, $attributes);
         return $this->variantRepository->createMultiVariant($variants);
     }
+
+    public function updateMultiVariant($variantAttrs)
+    {
+        foreach ($variantAttrs as $variantAttr) {
+            if (count($variantAttr) > 1) {
+                $this->variantRepository->updateVatiant($variantAttr, $variantAttr['id']);
+            }
+        }
+    }
 }

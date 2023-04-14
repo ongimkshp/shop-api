@@ -7,7 +7,7 @@ use App\Http\Controllers\VariantController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\CollectController;
-use Illuminate\Support\Facades\DB;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,6 +27,7 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'getProducts']);
     Route::get('/{id}', [ProductController::class, 'getProductById']);
     Route::post('/', [ProductController::class, 'createProduct']);
+    Route::put('/{id}', [ProductController::class, 'updateProduct']);
 
     Route::get('/{id}/variants', [VariantController::class, 'getVariantsByProductId']);
     Route::post('/{id}/variants', [VariantController::class, 'createVariant']);
@@ -43,7 +44,3 @@ Route::group(['prefix' => 'collections'], function () {
 });
 
 Route::post('/collects', [CollectController::class, 'addProductToCollection']);
-
-DB::listen(function ($query) {
-    var_dump($query->sql);
-});

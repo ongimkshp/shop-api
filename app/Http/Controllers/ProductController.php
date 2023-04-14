@@ -19,8 +19,8 @@ class ProductController extends Controller
 
     public function getProducts(Request $request)
     {
-        $data = $this->productService->getProducts($request);
-        return ApiResponse::createSuccessResponse($data);
+        $product = $this->productService->getProducts($request);
+        return ApiResponse::createSuccessResponse(ProductResource::collection($product));
     }
 
     public function getProductById($id)
@@ -32,6 +32,12 @@ class ProductController extends Controller
     public function createProduct(ProductRequest $request)
     {
         $product = $this->productService->createProduct($request);
+        return ApiResponse::createSuccessResponse(new ProductResource($product));
+    }
+
+    public function updateProduct($id, ProductRequest $request)
+    {
+        $product = $this->productService->updateProduct($id, $request);
         return ApiResponse::createSuccessResponse(new ProductResource($product));
     }
 }

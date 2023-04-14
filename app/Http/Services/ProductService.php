@@ -33,9 +33,7 @@ class ProductService
         $pagram['limit'] = $pagram['limit'] ?? self::LIMIT_DEFAULT;
         $pagram['page'] = $pagram['page'] ?? self::PAGE_DEFAULT;
         $product = $this->productRepository->getProducts($pagram['limit'], $pagram['page']);
-        return [
-            'products' => $product
-        ];
+        return $product;
     }
 
     public function getProductById($id)
@@ -62,6 +60,24 @@ class ProductService
         if ($imageAttr) {
             $this->productImageService->createMultiProductImages($imageAttr, $product->id);
         }
+        return $product;
+    }
+
+    public function updateProduct($id, $request)
+    {
+        $product = $this->productRepository->findById($id);
+        $attributes = $request->only(['title', 'product_type', 'status', 'vendor']);
+        $product->fill($attributes);
+        $variantsAttr = $request->variants;
+        $this->variantService->updateMultiVariant($variantsAttr);
+        $imageAttr = $request->images;
+        if (count($imageAttr) > 0) {
+            $this->productImageService->updateMultiImagesOnProduct($imageAttr, $product->id);
+        } else {
+            $this->productImageService->deleteAllImagesOnProduct($product->id);
+        }
+
+
         return $product;
     }
 }

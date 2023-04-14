@@ -28,4 +28,9 @@ class VariantRepository implements VariantRepositoryInterface
     {
         return $this->model::insert($attributes);
     }
+
+    public function updateVatiant($attributes, $id)
+    {
+        return $this->model::where('id', $id)->update($attributes);
+    }
 }

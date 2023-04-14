@@ -28,4 +28,9 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return $this->model::create($attributes);
     }
+
+    public function updateProduct($id, $attributes)
+    {
+        return $this->model::where('id', $id)->update($attributes);
+    }
 }

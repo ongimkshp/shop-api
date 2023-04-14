@@ -30,4 +30,14 @@ class ProductImageRepository implements ProductImageRepositoryInterface
         $productImage = $this->model::insert($attributes);
         return $productImage;
     }
+
+    public function updateImage($imageId, $attributes)
+    {
+        return $this->model->where('id', $imageId)->update($attributes);
+    }
+
+    public function deleteAllImagesOnProduct($productId)
+    {
+        return $this->model->where('product_id', $productId)->delete();
+    }
 }
