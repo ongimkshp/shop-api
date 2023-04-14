@@ -20,7 +20,6 @@ class ProductImage extends Model
         'product_id',
         'variant_ids',
         'src',
-        'alt',
         'position',
         'width',
         'height',

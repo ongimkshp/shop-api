@@ -6,7 +6,7 @@ class ProductRequest extends BaseRequest
 {
     public function rules()
     {
-        return [
+        $rules =  [
             'title' => 'required|unique:products,title|max:255',
             'status' => 'in:active,draft,archived',
             'options' => 'array|max:3',
@@ -19,8 +19,19 @@ class ProductRequest extends BaseRequest
             'variants.*.option3' => 'max:255',
             'images' => 'array',
             'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5000',
-
         ];
+        if (in_array($this->method(), ['PUT'])) {
+            $rules = [
+                'title' => 'unique:products,title|max:255',
+                'status' => 'in:active,draft,archived',
+                'variants' => 'array|max:100',
+                'variants.*.id' => 'uuid|required|exists:variants,id',
+                'images' => 'array',
+                'images.*.id' => 'uuid|exists:product_images,id',
+                'images.*.src' => 'string|max:255',
+            ];
+        }
+        return $rules;
     }
 
     public function messages()

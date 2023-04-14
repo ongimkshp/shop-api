@@ -18,6 +18,10 @@ class ProductImageResource extends JsonResource
             'id' => $this->id,
             'product_id' => $this->product_id,
             'src' => $this->src,
+            'position' => $this->position,
+            'alt' => $this->alt,
+            'width' => $this->width,
+            'height' => $this->height,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];

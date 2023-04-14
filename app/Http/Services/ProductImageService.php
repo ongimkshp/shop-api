@@ -47,4 +47,30 @@ class ProductImageService
         }, $images);
         return $this->productImageRepository->insertImages($attributes);
     }
+
+    public function updateMultiImagesOnProduct($imageAttrs, $productId)
+    {
+        foreach ($imageAttrs as $imageAttr) {
+            if (isset($imageAttr['id'])) {
+                $this->productImageRepository->updateImage($imageAttr['id'], $imageAttr);
+            } else {
+                $newImage = [
+                    'id' => Str::uuid(),
+                    'product_id' => $productId,
+                    'position' => $imageAttr['position'] ?? null,
+                    'width' => $imageAttr['width'] ?? null,
+                    'height' => $imageAttr['height'] ?? null,
+                    'src' => $imageAttr['src'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+                $this->productImageRepository->storeImage($newImage);
+            }
+        }
+    }
+
+    public function deleteAllImagesOnProduct($productId)
+    {
+        return $this->productImageRepository->deleteAllImagesOnProduct($productId);
+    }
 }

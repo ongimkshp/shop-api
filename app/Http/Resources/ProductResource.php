@@ -23,6 +23,8 @@ class ProductResource extends JsonResource
             'variants' => VariantResource::collection($this->variants),
             'images' => ProductImageResource::collection($this->images),
             'image' => $this->images ? new ProductImageResource($this->images->first()) : null,
+            'product_type' => $this->product_type,
+            'vendor' => $this->vendor,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
