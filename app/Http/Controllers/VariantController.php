@@ -17,6 +17,12 @@ class VariantController extends Controller
         $this->variantService = $variantService;
     }
 
+    public function getVariantsByProductId($productId)
+    {
+        $variants = $this->variantService->getVariantsByProductId($productId);
+        return ApiResponse::createSuccessResponse(VariantResource::collection($variants));
+    }
+
     public function createVariant(VariantRequest $request)
     {
         $variant = $this->variantService->createVariant($request);

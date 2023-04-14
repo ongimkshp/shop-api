@@ -16,4 +16,14 @@ class Collect extends Model
         'collection_id',
         'product_id',
     ];
+
+    public function collection()
+    {
+        return $this->belongsTo(Collection::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

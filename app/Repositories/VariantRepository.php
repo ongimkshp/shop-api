@@ -14,6 +14,11 @@ class VariantRepository implements VariantRepositoryInterface
         $this->model = $model;
     }
 
+    public function getAllVariantsByProductId($productId)
+    {
+        return $this->model->where('product_id', $productId)->get();
+    }
+
     public function createVariant($attributes)
     {
         return $this->model::create($attributes);
