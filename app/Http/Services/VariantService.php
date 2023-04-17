@@ -51,6 +51,16 @@ class VariantService
         return $this->variantRepository->createMultiVariant($variants);
     }
 
+    public function updateVariant($request, $variantId)
+    {
+        $attributes = $request->only([
+            'price',
+            'grams',
+            'quantity',
+        ]);
+        return $this->variantRepository->updateVatiant($attributes, $variantId);
+    }
+
     public function updateMultiVariant($variantAttrs)
     {
         foreach ($variantAttrs as $variantAttr) {

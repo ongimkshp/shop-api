@@ -29,12 +29,15 @@ Route::group(['prefix' => 'products'], function () {
     Route::post('/', [ProductController::class, 'createProduct']);
     Route::put('/{id}', [ProductController::class, 'updateProduct']);
 
-    Route::get('/{id}/variants', [VariantController::class, 'getVariantsByProductId']);
+    Route::get('/{id}/variants', [VariantController::class, 'getProductVariants']);
     Route::post('/{id}/variants', [VariantController::class, 'createVariant']);
 
     Route::get('/{id}/images', [ProductImageController::class, 'getProductImages']);
     Route::post('/{id}/images', [ProductImageController::class, 'createProductImage']);
 });
+
+Route::put('/variants/{id}', [VariantController::class, 'updateVariant']);
+Route::put('/images/{id}', [ProductImageController::class, 'updateProductImage']);
 
 Route::group(['prefix' => 'collections'], function () {
     Route::get('/', [CollectionController::class, 'getCollections']);
