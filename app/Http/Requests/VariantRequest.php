@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 
+
 class VariantRequest extends BaseRequest
 {
     public function rules()

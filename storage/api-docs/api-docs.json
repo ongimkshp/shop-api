@@ -1,0 +1,1351 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Your super ApplicationAPI",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/collects": {
+            "post": {
+                "tags": [
+                    "Collect"
+                ],
+                "summary": "Add product to collection",
+                "description": "Add product to collection",
+                "operationId": "addProductToCollection",
+                "requestBody": {
+                    "description": "Product object that needs to be added to collection",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id, collection_id"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "type": "uuid",
+                                        "example": "c0a80121-7ac0-18d3-8e47-000000000000"
+                                    },
+                                    "collection_id": {
+                                        "type": "uuid",
+                                        "example": "c0a80121-7ac0-18d3-8e47-000000000000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CollectResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Collection not found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "The product id field is required.",
+                                                "The collection id field is required."
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/collections": {
+            "get": {
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Get list of collections",
+                "description": "Returns list of collections",
+                "operationId": "getCollections",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CollectionResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Create collection",
+                "description": "Create collection",
+                "operationId": "createCollection",
+                "requestBody": {
+                    "description": "Collection object that needs to be added",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CollectionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CollectionResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "message",
+                                        "errors"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error."
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "The name field is required."
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/collections/{id}": {
+            "get": {
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Get collection by id",
+                "description": "Returns collection by id",
+                "operationId": "getCollectionById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Collection ID",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CollectionResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    }
+                }
+            }
+        },
+        "/api/collections/{id}/products": {
+            "get": {
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Get products in collection",
+                "description": "Returns products in collection",
+                "operationId": "getProductsInCollection",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Collection ID",
+                        "required": false,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ProductResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get list of products",
+                "description": "Returns list of products",
+                "operationId": "getProducts",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ProductResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create product",
+                "description": "Create product",
+                "operationId": "createProduct",
+                "requestBody": {
+                    "description": "Product object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "The name field is required."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get product by id",
+                "description": "Returns product by id",
+                "operationId": "getProductById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product id",
+                        "schema": {
+                            "type": "uuid",
+                            "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update product",
+                "description": "Update product",
+                "operationId": "updateProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product id",
+                        "schema": {
+                            "type": "uuid",
+                            "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Product object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "The name field is required."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{productId}/images": {
+            "get": {
+                "tags": [
+                    "Product Images"
+                ],
+                "summary": "Get list of product images",
+                "description": "Returns list of product images",
+                "operationId": "getProductImages",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ProductImageResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Product Images"
+                ],
+                "summary": "Create product image",
+                "description": "Create product image",
+                "operationId": "createProductImage",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Product image object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductImageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductImageResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "The image field is required."
+                                            },
+                                            "example": [
+                                                "The image field is required.",
+                                                "The product id field is required."
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{productId}/variants": {
+            "get": {
+                "tags": [
+                    "Variants"
+                ],
+                "summary": "Get list of product variants",
+                "description": "Returns list of product variants",
+                "operationId": "getProductVariants",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/VariantResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Variants"
+                ],
+                "summary": "Create product variant",
+                "description": "Create product variant",
+                "operationId": "createProductVariant",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Create product variant",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "option1",
+                                    "product_id"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "type": "uuid",
+                                        "example": "123e4567-e89b-12d3-a456-426655440000"
+                                    },
+                                    "option1": {
+                                        "type": "string",
+                                        "example": "option1"
+                                    },
+                                    "option2": {
+                                        "type": "string",
+                                        "example": "option2"
+                                    },
+                                    "option3": {
+                                        "type": "string",
+                                        "example": "option3"
+                                    },
+                                    "price": {
+                                        "type": "string",
+                                        "example": "12000.00"
+                                    },
+                                    "gram": {
+                                        "type": "string",
+                                        "example": null
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/VariantResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "Option1 is required."
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{productId}/variants/{variantId}": {
+            "put": {
+                "tags": [
+                    "Variants"
+                ],
+                "summary": "Update product variant",
+                "description": "Update product variant",
+                "operationId": "updateProductVariant",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },
+                    {
+                        "name": "variantId",
+                        "in": "path",
+                        "description": "Variant ID",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update product variant",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "price": {
+                                        "type": "string",
+                                        "example": "12000.00"
+                                    },
+                                    "gram": {
+                                        "type": "string",
+                                        "example": null
+                                    },
+                                    "quantity": {
+                                        "type": "string",
+                                        "example": 15
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/VariantResource"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "Option1 is required.",
+                                                "Option2 is required."
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CollectionRequest": {
+                "properties": {
+                    "title": {
+                        "description": "Title of collection",
+                        "type": "string",
+                        "example": "Collection 1"
+                    },
+                    "sort_order": {
+                        "description": "Sort order of collection",
+                        "type": "string",
+                        "example": "alpha-asc"
+                    },
+                    "published": {
+                        "description": "Published of collection",
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "product_ids": {
+                        "description": "Product ids of collection",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "asdasd-123123-asdasd-123123"
+                        },
+                        "example": "['asdasd-123123-asdasd-123123', 'asdasd-123123-asdasd-123123']"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductImageRequest": {
+                "properties": {
+                    "product_id": {
+                        "description": "Product ID",
+                        "type": "uuid",
+                        "example": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
+                    },
+                    "variant_ids": {
+                        "description": "Variant IDs",
+                        "type": "array",
+                        "items": {
+                            "type": "uuid",
+                            "example": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p"
+                        },
+                        "example": [
+                            "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+                            "2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q"
+                        ]
+                    },
+                    "image_file": {
+                        "description": "Image file",
+                        "type": "file",
+                        "example": "image.jpg"
+                    },
+                    "position": {
+                        "description": "Position",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "width": {
+                        "description": "Width",
+                        "type": "string",
+                        "example": "100"
+                    },
+                    "height": {
+                        "description": "Height",
+                        "type": "string",
+                        "example": "100"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductRequest": {
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "title": {
+                        "description": "Product title",
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Product title"
+                    },
+                    "status": {
+                        "description": "Product status",
+                        "type": "string",
+                        "default": "active",
+                        "enum": [
+                            "active",
+                            "draft",
+                            "archived"
+                        ],
+                        "example": "active"
+                    },
+                    "options": {
+                        "description": "Product options",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "name": {
+                                    "description": "Option name",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "Color"
+                                },
+                                "values": {
+                                    "description": "Option values",
+                                    "type": "array",
+                                    "items": {
+                                        "description": "Option value",
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Red"
+                                    },
+                                    "example": [
+                                        "Red",
+                                        "Blue"
+                                    ]
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "maxItems": 3,
+                        "example": [
+                            {
+                                "name": "Color",
+                                "values": [
+                                    "Red",
+                                    "Blue"
+                                ]
+                            }
+                        ]
+                    },
+                    "variants": {
+                        "description": "Product variants",
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "option1": {
+                                    "description": "Option 1",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "Red"
+                                },
+                                "option2": {
+                                    "description": "Option 2",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "Small"
+                                },
+                                "option3": {
+                                    "description": "Option 3",
+                                    "type": "string",
+                                    "maxLength": 255,
+                                    "example": "Round"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "maxItems": 100,
+                        "example": [
+                            {
+                                "option1": "Red",
+                                "option2": "Small",
+                                "option3": "Round"
+                            }
+                        ]
+                    },
+                    "images": {
+                        "description": "Product images",
+                        "type": "array",
+                        "items": {
+                            "description": "Image URL",
+                            "type": "string",
+                            "maxLength": 255,
+                            "example": "https://example.com/image.jpg"
+                        },
+                        "maxItems": 100,
+                        "example": [
+                            [
+                                "https://example.com/image.jpg"
+                            ]
+                        ]
+                    },
+                    "description": {
+                        "description": "Product description",
+                        "type": "string",
+                        "example": "Product description"
+                    }
+                },
+                "type": "object"
+            },
+            "CollectResource": {
+                "title": "Collect",
+                "description": "Collect model",
+                "properties": {
+                    "id": {
+                        "description": "Collect id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "collection_id": {
+                        "description": "Collect collection_id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "product_id": {
+                        "description": "Collect product_id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "created_at": {
+                        "description": "Collect created at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Collect updated at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Collect"
+                }
+            },
+            "CollectionResource": {
+                "title": "Collection",
+                "description": "Collection model",
+                "properties": {
+                    "id": {
+                        "description": "Collection id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "title": {
+                        "description": "Collection title",
+                        "type": "string",
+                        "example": "Collection title"
+                    },
+                    "sort_order": {
+                        "description": "Collection sort_order",
+                        "type": "string",
+                        "example": "Collection sort_order"
+                    },
+                    "created_at": {
+                        "description": "Collection created at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Collection updated at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Collection"
+                }
+            },
+            "ProductImageResource": {
+                "title": "ProductImage",
+                "description": "ProductImage model",
+                "properties": {
+                    "id": {
+                        "description": "ProductImage id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "product_id": {
+                        "description": "ProductImage product_id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "src": {
+                        "description": "ProductImage src",
+                        "type": "string",
+                        "example": "/storage/product_images/1.jpg"
+                    },
+                    "position": {
+                        "description": "ProductImage position",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "alt": {
+                        "description": "ProductImage alt",
+                        "type": "string",
+                        "example": "ProductImage alt"
+                    },
+                    "width": {
+                        "description": "ProductImage width",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "height": {
+                        "description": "ProductImage height",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "created_at": {
+                        "description": "ProductImage created at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "ProductImage updated at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ProductImage"
+                }
+            },
+            "ProductOptionResource": {
+                "title": "ProductOption",
+                "description": "ProductOption model",
+                "properties": {
+                    "id": {
+                        "description": "ProductOption id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "product_id": {
+                        "description": "ProductOption product_id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "name": {
+                        "description": "ProductOption name",
+                        "type": "string",
+                        "example": "ProductOption name"
+                    },
+                    "values": {
+                        "description": "ProductOption values",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "M"
+                        },
+                        "example": [
+                            "M",
+                            "L",
+                            "XL"
+                        ]
+                    },
+                    "created_at": {
+                        "description": "ProductOption created at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "ProductOption updated at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ProductOption"
+                }
+            },
+            "ProductResource": {
+                "title": "Product",
+                "description": "Product model",
+                "properties": {
+                    "id": {
+                        "description": "Product id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "title": {
+                        "description": "Product title",
+                        "type": "string",
+                        "example": "Product title"
+                    },
+                    "status": {
+                        "description": "Product status",
+                        "type": "string",
+                        "example": "Product status"
+                    },
+                    "options": {
+                        "description": "Product options",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductOptionResource"
+                        }
+                    },
+                    "variants": {
+                        "description": "Product variants",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/VariantResource"
+                        }
+                    },
+                    "images": {
+                        "description": "Product images",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductImageResource"
+                        }
+                    },
+                    "image": {
+                        "description": "Product image",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductImageResource"
+                        }
+                    },
+                    "product_type": {
+                        "description": "Product product_type",
+                        "type": "string",
+                        "example": "Product product_type"
+                    },
+                    "vendor": {
+                        "description": "Product vendor",
+                        "type": "string",
+                        "example": "Product vendor"
+                    },
+                    "created_at": {
+                        "description": "Product created_at",
+                        "type": "string",
+                        "example": "Product created_at"
+                    },
+                    "updated_at": {
+                        "description": "Product updated_at",
+                        "type": "string",
+                        "example": "Product updated_at"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Product"
+                }
+            },
+            "VariantResource": {
+                "title": "Variant",
+                "description": "Variant model",
+                "properties": {
+                    "id": {
+                        "description": "Variant id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "product_id": {
+                        "description": "Variant product_id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "title": {
+                        "description": "Variant title",
+                        "type": "string",
+                        "example": "Variant title"
+                    },
+                    "price": {
+                        "description": "Variant price",
+                        "type": "string",
+                        "example": "Variant price"
+                    },
+                    "gram": {
+                        "description": "Variant gram",
+                        "type": "string",
+                        "example": "Variant gram"
+                    },
+                    "option1": {
+                        "description": "Variant option1",
+                        "type": "string",
+                        "example": "Variant option1"
+                    },
+                    "option2": {
+                        "description": "Variant option2",
+                        "type": "string",
+                        "example": "Variant option2"
+                    },
+                    "option3": {
+                        "description": "Variant option3",
+                        "type": "string",
+                        "example": "Variant option3"
+                    },
+                    "created_at": {
+                        "description": "Variant created at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Variant updated at",
+                        "type": "string",
+                        "example": "2020-11-12 12:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Variant"
+                }
+            }
+        }
+    }
+}

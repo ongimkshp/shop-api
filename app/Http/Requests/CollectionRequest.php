@@ -2,7 +2,41 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
+// write doc $OA CollectionRequest here
+/**
+ * @OA\Schema(
+ *   schema="CollectionRequest",
+ *   type="object",
+ *   @OA\Property(
+ *     property="title",
+ *     type="string",
+ *     description="Title of collection",
+ *     example="Collection 1"
+ *     ),
+ *   @OA\Property(
+ *     property="sort_order",
+ *     type="string",
+ *     description="Sort order of collection",
+ *     example="alpha-asc"
+ *   ),
+ *   @OA\Property(
+ *     property="published",
+ *     type="boolean",
+ *     description="Published of collection",
+ *     example="true"
+ *   ),
+ *   @OA\Property(
+ *     property="product_ids",
+ *     type="array",
+ *     description="Product ids of collection",
+ *     example="['asdasd-123123-asdasd-123123', 'asdasd-123123-asdasd-123123']",
+ *     @OA\Items(
+ *       type="string",
+ *             example="asdasd-123123-asdasd-123123"
+ *       ),
+ *     ),
+ *  )
+ */
 
 class CollectionRequest extends BaseRequest
 {

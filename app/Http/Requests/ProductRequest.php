@@ -2,6 +2,110 @@
 
 namespace App\Http\Requests;
 
+//write schema for product request
+/**
+ * @OA\Schema(
+ *   schema="ProductRequest",
+ *   type="object",
+ *   required={"title"},
+ *   @OA\Property(
+ *     property="title",
+ *     type="string",
+ *     description="Product title",
+ *     example="Product title",
+ *     maxLength=255
+ *     ),
+ *   @OA\Property(
+ *     property="status",
+ *     type="string",
+ *     description="Product status",
+ *     example="active",
+ *     default="active",
+ *     enum={"active", "draft", "archived"}
+ *     ),
+ *   @OA\Property(
+ *     property="options",
+ *     type="array",
+ *     description="Product options",
+ *     example={{"name": "Color", "values": {"Red", "Blue"}}},
+ *     @OA\Items(
+ *       type="object",
+ *       @OA\Property(
+ *         property="name",
+ *         type="string",
+ *         description="Option name",
+ *         example="Color",
+ *         maxLength=255
+ *         ),
+ *       @OA\Property(
+ *         property="values",
+ *         type="array",
+ *         description="Option values",
+ *         example={"Red", "Blue"},
+ *         @OA\Items(
+ *           type="string",
+ *           description="Option value",
+ *           example="Red",
+ *           maxLength=255
+ *           ),
+ *         ),
+ *       ),
+ *      maxItems=3
+ *      ),
+ *    @OA\Property(
+ *      property="variants",
+ *      type="array",
+ *      description="Product variants",
+ *      example={{"option1": "Red", "option2": "Small", "option3": "Round"}},
+ *      @OA\Items(
+ *        type="object",
+ *        @OA\Property(
+ *          property="option1",
+ *          type="string",
+ *          description="Option 1",
+ *          example="Red",
+ *          maxLength=255
+ *          ),
+ *        @OA\Property(
+ *          property="option2",
+ *          type="string",
+ *          description="Option 2",
+ *          example="Small",
+ *          maxLength=255
+ *          ),
+ *        @OA\Property(
+ *          property="option3",
+ *          type="string",
+ *          description="Option 3",
+ *          example="Round",
+ *          maxLength=255
+ *          ),
+ *        ),
+ *      maxItems=100
+ *      ),
+ *    @OA\Property(
+ *      property="images",
+ *      type="array",
+ *      description="Product images",
+ *      example={{"https://example.com/image.jpg"}},
+ *      @OA\Items(
+ *        type="string",
+ *        description="Image URL",
+ *        example="https://example.com/image.jpg",
+ *        maxLength=255
+ *        ),
+ *      maxItems=100
+ *      ),
+ *    @OA\Property(
+ *      property="description",
+ *      type="string",
+ *      description="Product description",
+ *      example="Product description",
+ *      ),
+ *   )
+ *)
+ */
+
 class ProductRequest extends BaseRequest
 {
     public function rules()
