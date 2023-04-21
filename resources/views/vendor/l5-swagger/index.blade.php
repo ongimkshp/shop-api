@@ -64,7 +64,14 @@
             persistAuthorization: "{!! config('l5-swagger.defaults.ui.authorization.persist_authorization') ? 'true' : 'false' !!}",
 
         })
-
+        ui.setConfig({
+            url: "https://shop-api-production-40e7.up.railway.app/docs/swagger.json",
+            urls: [
+                {name: "Docs", url: "https://shop-api-production-40e7.up.railway.app/docs/swagger.json"}
+            ],
+            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch', 'options'],
+            deepLinking: false
+        });
         window.ui = ui
 
         @if(in_array('oauth2', array_column(config('l5-swagger.defaults.securityDefinitions.securitySchemes'), 'type')))
