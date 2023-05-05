@@ -7,7 +7,9 @@ use App\Http\Controllers\VariantController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\CollectController;
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LoginGoogleController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,8 +21,22 @@ use App\Http\Controllers\CollectController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', [AuthController::class, 'loginByEmailPassword']);
+    Route::post('login/email-otp', [AuthController::class, 'loginWithEmail']);
+    Route::get('/login/email-otp/verify', [AuthController::class, 'verifyEmailOtp'])->name('email_otp_verify');
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+
+    Route::middleware('auth:api')->group(function () {
+        Route::get('user', [UserController::class, 'index']);
+        Route::post('logout', [AuthController::class, 'logout']);
+    });
+
+    Route::get('google', [LoginGoogleController::class, 'redirectToGoogle']);
+    Route::get('google/callback', [LoginGoogleController::class, 'handleGoogleCallback']);
 });
 
 Route::group(['prefix' => 'products'], function () {

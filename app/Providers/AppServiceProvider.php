@@ -37,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\Interfaces\CollectRepositoryInterface',
             'App\Repositories\CollectRepository'
         );
+        $this->app->bind(
+            'App\Repositories\Interfaces\UserRepositoryInterface',
+            'App\Repositories\UserRepository'
+        );
     }
 
     /**
