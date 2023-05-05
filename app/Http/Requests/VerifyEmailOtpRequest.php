@@ -2,7 +2,26 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+/**
+ * @OA\Schema(
+ *      title="VerifyEmailOtpRequest",
+ *      description="VerifyEmailOtpRequest request body data",
+ *      type="object",
+ *      required={"userId", "signature"},
+ *      @OA\Property(
+ *        property="userId",
+ *        type="string",
+ *        description="User id",
+ *        example="ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+ *      ),
+ *      @OA\Property(
+ *        property="signature",
+ *        type="string",
+ *        description="Signature",
+ *        example="signature"
+ *      ),
+ * )
+ */
 
 class VerifyEmailOtpRequest extends BaseRequest
 {

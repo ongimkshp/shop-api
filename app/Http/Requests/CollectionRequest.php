@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-// write doc $OA CollectionRequest here
 /**
  * @OA\Schema(
  *   schema="CollectionRequest",

@@ -5,6 +5,406 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "description": "Register",
+                "operationId": "register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "The name field is required.",
+                                                "The email field is required."
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "description": "Login by email passpord",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 3600
+                                        },
+                                        "refresh_token": {
+                                            "type": "string",
+                                            "example": "def50200b3d0f7f3a3b3a"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "The password field is required.",
+                                                "The email field is required."
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "logout",
+                "description": "logout",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "Invalid credentials"
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "refresh",
+                "description": "Refresh token",
+                "operationId": "refresh",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefreshTokenRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 3600
+                                        },
+                                        "refresh_token": {
+                                            "type": "string",
+                                            "example": "def50200b3d0f7f3a3b3a"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "The refresh token field is required."
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login/email-otp": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login email-otp",
+                "description": "Login by email-otp",
+                "operationId": "login-email-otp",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginWithEmailRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "OTP sent to your email"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "The email field is required."
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/verify/email-otp": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Verify email-otp",
+                "description": "Verify email-otp",
+                "operationId": "verify-email-otp",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "User Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "signature",
+                        "in": "query",
+                        "description": "Signature",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "def50200b3d0f7f3a3b3a"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 3600
+                                        },
+                                        "refresh_token": {
+                                            "type": "string",
+                                            "example": "def50200b3d0f7f3a3b3a"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "The email field is required."
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/collects": {
             "post": {
                 "tags": [
@@ -289,6 +689,74 @@
                     },
                     "400": {
                         "description": "Invalid ID supplied"
+                    }
+                }
+            }
+        },
+        "/api/auth/google": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Redirect to Google",
+                "description": "Redirect to Google",
+                "operationId": "redirectToGoogle",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "redirectUrl": {
+                                            "type": "string",
+                                            "example": "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=123456789&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fapi%2Fauth%2Fgoogle%2Fcallback&scope=&state=123456789"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/google/callback": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Handle Google Callback",
+                "description": "Handle Google Callback",
+                "operationId": "handleGoogleCallback",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "123456789"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        },
+                                        "expires_in": {
+                                            "type": "integer",
+                                            "example": 3600
+                                        },
+                                        "refresh_token": {
+                                            "type": "string",
+                                            "example": "123456789"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -613,6 +1081,35 @@
                 }
             }
         },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user profile",
+                "operationId": "971db9bc974c0e607288cfe7ecc10096",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/products/{productId}/variants": {
             "get": {
                 "tags": [
@@ -878,6 +1375,42 @@
                 },
                 "type": "object"
             },
+            "LoginRequest": {
+                "title": "LoginRequest",
+                "description": "LoginRequest request body data",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "example": "manh@gmail.com"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginWithEmailRequest": {
+                "title": "LoginWithEmailRequest",
+                "description": "LoginWithEmailRequest request body data",
+                "required": [
+                    "email"
+                ],
+                "properties": {
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "example": "manh@gmail.com"
+                    }
+                },
+                "type": "object"
+            },
             "ProductImageRequest": {
                 "properties": {
                     "product_id": {
@@ -1036,6 +1569,75 @@
                         "description": "Product description",
                         "type": "string",
                         "example": "Product description"
+                    }
+                },
+                "type": "object"
+            },
+            "RefreshTokenRequest": {
+                "title": "RefreshTokenRequest",
+                "description": "RefreshTokenRequest request body data",
+                "required": [
+                    "refresh_token"
+                ],
+                "properties": {
+                    "refresh_token": {
+                        "description": "Refresh token",
+                        "type": "string",
+                        "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMDYyZjYyZjYtZ\n *        mY2ZC00ZjY0LWE5ZjUtYjYwZjY2ZjY2ZjY2IiwiaWF0IjoxNjIyNjQ0NjYyLCJleHAiOjE2MjI2NDg\n *        yNjIsImNsaWVudF9pZCI6IjEiLCJzY29wZXMi"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterRequest": {
+                "title": "RegisterRequest",
+                "description": "RegisterRequest request body data",
+                "required": [
+                    "name",
+                    "email",
+                    "password",
+                    "password_confirmation"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Name",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "example": "john@gmai.com"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string",
+                        "example": "password"
+                    },
+                    "password_confirmation": {
+                        "description": "Password confirmation",
+                        "type": "string",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "VerifyEmailOtpRequest": {
+                "title": "VerifyEmailOtpRequest",
+                "description": "VerifyEmailOtpRequest request body data",
+                "required": [
+                    "userId",
+                    "signature"
+                ],
+                "properties": {
+                    "userId": {
+                        "description": "User id",
+                        "type": "string",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "signature": {
+                        "description": "Signature",
+                        "type": "string",
+                        "example": "signature"
                     }
                 },
                 "type": "object"
@@ -1284,6 +1886,41 @@
                 "type": "object",
                 "xml": {
                     "name": "Product"
+                }
+            },
+            "UserResource": {
+                "title": "User",
+                "description": "User resource",
+                "properties": {
+                    "id": {
+                        "description": "User id",
+                        "type": "uuid",
+                        "example": "ea9f1b1a-1b1a-11eb-adc1-0242ac120002"
+                    },
+                    "name": {
+                        "description": "User name",
+                        "type": "string",
+                        "example": "User name"
+                    },
+                    "email": {
+                        "description": "User email",
+                        "type": "string",
+                        "example": "mail@gmail.com"
+                    },
+                    "created_at": {
+                        "description": "User created_at",
+                        "type": "string",
+                        "example": "2021-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "description": "User updated_at",
+                        "type": "string",
+                        "example": "2021-01-01 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserResource"
                 }
             },
             "VariantResource": {
