@@ -2,6 +2,22 @@
 
 namespace App\Http\Requests;
 
+/**
+ * @OA\Schema(
+ *      title="LoginWithEmailRequest",
+ *      description="LoginWithEmailRequest request body data",
+ *      type="object",
+ *      required={"email"},
+ *      @OA\Property(
+ *        property="email",
+ *        type="string",
+ *        description="Email",
+ *        example="manh@gmail.com"
+ *      )
+ *    )
+ */
+
+
 class LoginWithEmailRequest extends BaseRequest
 {
 
