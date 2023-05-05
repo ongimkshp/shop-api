@@ -66,9 +66,6 @@ class AuthService
 
     public function verifyEmailOtp($request)
     {
-        if (!$request->hasValidSignature()) {
-            return redirect(config('services.frontend_url') . '/callback/mail-otp/verify/fail');
-        }
         Auth::loginUsingId($request->userId);
         $response = TokenService::generateTokenById($request->userId);
         return $response;

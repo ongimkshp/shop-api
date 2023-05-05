@@ -10,6 +10,7 @@ class VerifyEmailOtpRequest extends BaseRequest
     {
         return [
             'userId' => 'required',
+            'signature' => 'required',
         ];
     }
 
@@ -17,6 +18,7 @@ class VerifyEmailOtpRequest extends BaseRequest
     {
         return [
             'userId.required' => 'User id is required',
+            'signature.required' => 'Signature is required',
         ];
     }
 }
