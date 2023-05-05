@@ -2,10 +2,31 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+
+/**
+ * @OA\Schema(
+ *      title="LoginRequest",
+ *      description="LoginRequest request body data",
+ *      type="object",
+ *      required={"email", "password"},
+ *      @OA\Property(
+ *        property="email",
+ *        type="string",
+ *        description="Email",
+ *        example="manh@gmail.com"
+ *      ),
+ *      @OA\Property(
+ *        property="password",
+ *        type="string",
+ *        description="Password",
+ *        example="password"
+ *      )
+ *   )
+ */
+
 
 class LoginRequest extends BaseRequest
 {

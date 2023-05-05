@@ -2,6 +2,40 @@
 
 namespace App\Http\Requests;
 
+/**
+ * @OA\Schema(
+ *      title="RegisterRequest",
+ *      description="RegisterRequest request body data",
+ *      type="object",
+ *      required={"name", "email", "password", "password_confirmation"},
+ *      @OA\Property(
+ *        property="name",
+ *        type="string",
+ *        description="Name",
+ *        example="John Doe"
+ *      ),
+ *      @OA\Property(
+ *        property="email",
+ *        type="string",
+ *        description="Email",
+ *        example="john@gmai.com"
+ *      ),
+ *      @OA\Property(
+ *        property="password",
+ *        type="string",
+ *        description="Password",
+ *        example="password"
+ *      ),
+ *      @OA\Property(
+ *        property="password_confirmation",
+ *        type="string",
+ *        description="Password confirmation",
+ *        example="password"
+ *      )
+ * )
+ */
+
+
 class RegisterRequest extends BaseRequest
 {
 
